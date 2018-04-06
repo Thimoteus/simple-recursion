@@ -10,6 +10,9 @@ data Fix f = Fix (f (Fix f))
 unfix :: forall f. Fix f -> f (Fix f)
 unfix (Fix f) = f
 
+refix :: forall f g. Functor g => (f ~> g) -> Fix f -> Fix g
+refix nt = Fix <<< map (refix nt) <<< nt <<< unfix
+
 
 type Reducer f a = f a -> a
 
